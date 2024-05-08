@@ -26,7 +26,8 @@ def create_token():
     return jsonify(access_token=access_token)
 
 
-@api.route('/hello', methods=['POST', 'GET'])
+@api.route('/hello', methods=['GET'])
+@jwt_required()
 def handle_hello():
 
     response_body = {
