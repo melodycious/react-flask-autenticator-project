@@ -19,6 +19,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 		actions: {
 			// Use getActions to call a function within a fuction
 
+			getMessage: async () => {
+				const store = getStore();
+				const opts = {
+					headers: {
+						"Authorization" : "Bearer" + store.token
+					}
+				}
+				try{
+					// fetching data from the backend
+					const resp = await fetch(process.env.BACKEND_URL + "/api/hello", opts)
+					const data = await resp.json()
+					setStore({ message: data.message })
+					// don't forget to return something, that is how the async resolves
+					return data;
+				}catch(error){
+					console.log("Error loading message from backend", error)
+				}
+			},
+
+			syncTokenFromLocalStorage: () => {
+				const token = localStorage.getItem("token");
+				console.log("app loaded synching with Local storage");
+				if (token && token != "" && token != undefined) setStore({token: token});
+
+			},
+
 			login: async (email, password) => {
 				const opts = {
 					method:'POST',
@@ -51,8 +77,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				catch(error){
 					console.log("Error loading message from backend", error)
 				}
-			}
+			},
 			
+			logout: () => {
+				localStorage.removeItem("token");
+				console.log("login out");
+				setStore({token: null});
+			}
 		}
 	}
 };
