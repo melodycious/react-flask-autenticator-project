@@ -83,7 +83,36 @@ const getState = ({ getStore, getActions, setStore }) => {
 				localStorage.removeItem("token");
 				console.log("login out");
 				setStore({token: null});
-			}
+			},
+
+			createUser: async (userName, email, password) => {
+				try {
+					const response = await fetch(process.env.BACKEND_URL + "api/signup", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json"
+						},
+						
+						body: JSON.stringify({
+							"user_name": userName,
+							"email": email,
+							"password": password
+						})
+					});
+			
+					if (response.ok) {
+						const data = await response.json();
+						console.log(data)
+						return true;
+					} else {
+						alert("There has been some error, please check it out.");
+						return false;
+					}
+				} catch (error) {
+					console.error("There was an error:", error);
+					return false;
+				}
+			},
 		}
 	}
 };

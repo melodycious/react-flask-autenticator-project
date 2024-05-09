@@ -23,13 +23,15 @@ export const Navbar = () => {
 						!store.token ?
 
 						<Link to="/login">
-							<button className="btn btn-primary">Log in</button>
+							<button className="btn btn-primary me-2">Log in</button>
 						</Link>
 						:
 						<button onClick={handleLogout} className="btn btn-primary">Log Out</button>
 						
 					}
-					
+					<Link to="/signup">
+							<button className="btn btn-primary">Register</button>
+						</Link>
 				</div>
 			</div>
 		</nav>
