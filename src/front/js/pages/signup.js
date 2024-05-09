@@ -29,25 +29,27 @@ export const Signup = () => {
 	}
 
 	return (
-
-				<div className="text-center mt-5">
+				<div className="container">
+				<div className="row justify-content-md-center">
+				<div className="text-center mt-5 col-6">
 				<h2>Sign Up</h2>
-				<form>
-					<div>
-						<label className="">User name:</label>
+				<form className="">
+					<div className="form-group">
+						<label for="userName">User name:</label>
 						<input
 							type="text" 
-							id="newEmail" 
-							name="newEmail" 
+							className="form-control"
+							id="newuser" 
 							value={userName}
 							placeholder= "your username"
 							onChange={(e)=> setUserName(e.target.value)} 
 							required/>
 					</div>
-					<div>
-						<label className="">Email:</label>
+				    <div className="form-group">
+						<label for="email">Email:</label>
 						<input
 							type="email" 
+							className="form-control"
 							id="email" 
 							name="email" 
 							value={email}
@@ -55,10 +57,11 @@ export const Signup = () => {
 							onChange={(e)=> setEmail(e.target.value)} 
 							required/>
 					</div>
-					<div>
-						<label className="">Password:</label>
+					<div className="form-group">
+						<label for="userPassword">Password:</label>
 						<input
 						type="password" 
+						className="form-control"
 						id="password" 
 						name="password" 
 						value={password}
@@ -68,10 +71,14 @@ export const Signup = () => {
 					</div>
 					<div>
 						
-							<button onClick={handleClick} type="submit">Sign Up</button>
+							<button onClick={handleClick} className="btn btn-secondary mt-1" type="submit">Sign Up</button>
 						
 					</div>
 				</form>
+
+				
+			</div>
+			</div>
 			</div>
 			
 	)
