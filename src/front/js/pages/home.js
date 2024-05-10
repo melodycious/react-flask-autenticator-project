@@ -1,32 +1,28 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
+import hackergirl from "../../img/hacker-girl.jpg";
 import "../../styles/home.css";
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
-	console.log("logged state", store.logged)
 
 	useEffect (() => {
 		if (store.token && store.token != "" && store.token != undefined) actions.getMessage();
 	}, [store.token]);
 
 
-
 	return (
 		<div className="text-center mt-5">
-			<h1>Pruebas de autentificación</h1>
+			<h1>Authentication Testing</h1>
 			<p>
-				<img src={rigoImageUrl} />
+				<img src={hackergirl} width="250px" />
 			</p>
 			<div className="alert alert-info">
-				{store.message || "Loading message from the backend (make sure your python backend is running)..."}
+				{store.message || "Hello, here's your assignment, please log in to check it out"}
 			</div>
 			<p>
-				This boilerplate comes with lots of documentation:{" "}
-				<a href="https://start.4geeksacademy.com/starters/react-flask">
-					Read documentation
-				</a>
+				
 			</p>
 		</div>
 	);
