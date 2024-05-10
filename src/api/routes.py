@@ -15,17 +15,6 @@ api = Blueprint('api', __name__)
 CORS(api)
 
 # Route to authenticate users and return JWTs
-@api.route("/token", methods=['POST'])
-def create_token():
-    email = request.json.get("email", None)
-    password = request.json.get("password", None)
-    if email != "test" or password != "test":
-        return jsonify({"msg": "Bad email or password"}), 401
-
-    access_token = create_access_token(identity=email)
-    return jsonify(access_token=access_token)
-
-
 
 @api.route('/signup', methods=['POST'])
 def create_user():
@@ -48,7 +37,29 @@ def create_user():
     db.session.add(user)
     db.session.commit()
     
-    return jsonify({'message': 'Usuario registrado correctamente'}), 200
+    return jsonify({'message': 'User created correctly'}), 200
+
+
+@api.route("/token", methods=['POST'])
+def create_token():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    user_name = request.json.get("user_name", None) 
+    if not (email or user_name) or not password:
+        return jsonify({"msg": "Email/User name and password are required"}), 400
+    
+    user = None
+    if email:
+        user = User.query.filter_by(email=email).first()
+    elif user_name:
+        user = User.query.filter_by(user_name=user_name).first()
+
+    if user is None or user.password != password:
+        return jsonify({"msg": "Bad email, username, or password"}), 401
+
+    access_token = create_access_token(identity=user.serialize())
+    return jsonify(access_token=access_token)
+
     
 @api.route('/private', methods = ['GET'])
 @jwt_required()

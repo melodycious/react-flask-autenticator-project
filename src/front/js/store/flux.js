@@ -3,6 +3,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			token: null,
 			message: null,
+            logged: false,
 			demo: [
 				{
 					title: "FIRST",
@@ -39,48 +40,48 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			syncTokenFromLocalStorage: () => {
-				const token = localStorage.getItem("token");
-				console.log("app loaded synching with Local storage");
-				if (token && token != "" && token != undefined) setStore({token: token});
+				const token = sessionStorage.getItem("token");
+				console.log("app loaded synching with session storage");
+				if (token && token != "" && token != undefined) setStore({token: token, logged: true});
 
 			},
 
 			login: async (email, password) => {
 				const opts = {
-					method:'POST',
+					method: 'POST',
 					headers: {
 						"content-type": "application/json"
 					},
-					body: JSON.stringify(
-						{
-							"email": email,
-							"password": password
-						}
-					)
+					body: JSON.stringify({
+						"email": email,
+						"password": password
+					})
 				}
-
+			
 				try {
 					const resp = await fetch('https://turbo-xylophone-q77x9v5vqx4p3qg5-3001.app.github.dev/api/token', opts)
-
-					if (resp.status !== 200 ) {
-						alert("There has been an error");
+			
+					if (resp.ok) {
+						const data = await resp.json();
+						console.log("from back", data)
+						sessionStorage.setItem("token", data.access_token);
+						setStore({
+							token: data.access_token,
+							logged: true
+						});
+						return true;
+					} else {
+						alert("There is an error");
 						return false;
 					}
-
-					const data = await resp.json();
-						console.log("from back", data)
-						localStorage.setItem("token", data.access_token);
-						setStore({token: data.access_token});
-						return true;
-				}
-
-				catch(error){
-					console.log("Error loading message from backend", error)
+				} catch (error) {
+					console.log("Error loading message from backend", error);
+					return false;
 				}
 			},
 			
 			logout: () => {
-				localStorage.removeItem("token");
+				sessionStorage.removeItem("token");
 				console.log("login out");
 				setStore({token: null});
 			},
