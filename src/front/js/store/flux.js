@@ -4,6 +4,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			token: null,
 			message: null,
             logged: false,
+			user: null,
 			demo: [
 				{
 					title: "FIRST",

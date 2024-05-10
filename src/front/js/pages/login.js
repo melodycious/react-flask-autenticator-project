@@ -20,7 +20,7 @@ export const Login = () => {
 		console.log(email, password)
 		const triedToLogin = await actions.login(email, password);
 		if (triedToLogin) {
-			navigate("/home")
+			navigate("/private")
 			console.log(store)
 		}
         else {

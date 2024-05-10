@@ -24,8 +24,8 @@ export const Private = () => {
 
 			{store.logged === true && (
 				<div>
-					<h1>Welcome, {store.user.email}!</h1>
-					<p><strong>Classified Information</strong></p>
+					<h3>Welcome</h3>
+					<p><strong>Here's your private information</strong></p>
 				</div>
 			)}
 			{store.logged === false && (
